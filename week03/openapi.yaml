@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: 論文調査メモ管理API
+  version: 0.1.0
+paths:
+  /api/v1/papers:
+    get:
+      summary: 論文一覧を取得する
+      parameters:
+        - name: done
+          in: query
+          schema: { type: boolean }
+          description: 完了状態で絞り込む
+      responses:
+        '200':
+          description: タスク一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Paper' }
+    post:
+      summary: 論文記録を新規作成する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PaperCreate' }
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Paper' }
+        '422':
+          description: バリデーションエラー
+
+components:
+  schemas:
+    PaperCreate:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 100 }
+        published_date: { type: string, format: date, nullable: true }
+        memo: {type: string, nullable: true}
+    Paper:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string, minLength: 1, maxLength: 100 }
+        published_date: { type: string, format: date, nullable: true }
+        done: { type: boolean }
+        created_at: { type: string, format: date-time }
