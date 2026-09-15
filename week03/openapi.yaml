@@ -34,6 +34,71 @@ paths:
               schema: { $ref: '#/components/schemas/Paper' }
         '422':
           description: バリデーションエラー
+  /api/v1/papers/{paper_id}:
+    get:
+      summary: 論文メモを1件取得する
+      parameters:
+        - name: paper_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: 論文メモ1件
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Paper' }
+        '404':
+          description: 論文メモが存在しない
+    patch:
+      summary: 論文メモを部分更新する
+      parameters:
+        - name: paper_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: 更新1件
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Paper' }
+        '204':
+          description: 更新1件
+        '404':
+          description: 論文メモがない、もしくはパラメータ誤り
+    delete:
+      summary: 論文メモを削除する
+      parameters:
+        - name: paper_id
+          in: path
+          required: true
+          schema: {type: integer }
+      responses:
+        '204':
+          description: 削除1件
+        '404':
+          description: 該当論文メモがない。
+    patch:
+      summary: 論文メモを部分更新する
+      parameters:
+        - name: paper_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PaperUpdate' }
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Paper' }
+        '404':
+          description: 論文メモが存在しない
 
 components:
   schemas:
@@ -42,13 +107,23 @@ components:
       required: [title]
       properties:
         title: { type: string, minLength: 1, maxLength: 100 }
-        published_date: { type: string, format: date, nullable: true }
-        memo: {type: string, nullable: true}
+        published_date: { type: int, minimum: 1, maxmum: 9999, description: "西暦年。未来の年は指定できない", nullable: true }
+        done: { type: boolean }
+        memo: { type: string, nullable: true}
     Paper:
       type: object
       properties:
         id: { type: integer }
         title: { type: string, minLength: 1, maxLength: 100 }
-        published_date: { type: string, format: date, nullable: true }
+        published_date: { type: int, minimum: 1, maxmum: 9999, description: "西暦年。未来の年は指定できない", nullable: true }
         done: { type: boolean }
+        memo: { type: string, nullable: true}
+        created_at: { type: string, format: date-time }
+    PaperUpdate:
+      type: object
+      properties: 
+        title: { type: string, minLength: 1, maxLength: 100 }
+        published_date: { type: int, minimum: 1, maxmum: 9999, description: "西暦年。未来の年は指定できない", nullable: true }
+        done: { type: boolean }
+        memo: { type: string, nullable: true}
         created_at: { type: string, format: date-time }
