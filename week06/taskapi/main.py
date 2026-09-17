@@ -11,10 +11,12 @@ app = FastAPI(title="タスク管理API", version="0.1.0")
 Base.metadata.create_all(bind=engine)
 
 @app.get("/api/v1/tasks", response_model=list[TaskResponse])
-def list_tasks(done: bool | None = None, db: Session = Depends(get_db)):
+def list_tasks(done: bool | None = None, q: str | None = None, db: Session = Depends(get_db)):
     query = db.query(db_models.Task)
     if done is not None:
         query = query.filter(db_models.Task.done == done)
+    if q is not None:
+        query = query.filter(db_models.Task.title.contains(q))
     return query.all()
 
 @app.post("/api/v1/tasks", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
