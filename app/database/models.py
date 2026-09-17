@@ -14,7 +14,7 @@ class User(Base):
 class Paper(Base):
     __tablename__ = "papers"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String(100), nullable=False)
+    title = Column(String(100), unique=True, nullable=False)
     published_date = Column(Integer, default=None, nullable=True)
     done = Column(Boolean, default=False, nullable=True)
     memo = Column(String(1024), default=None, nullable=True)

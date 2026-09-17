@@ -19,6 +19,9 @@ def list_papers(done: bool | None = None, db: Session = Depends(get_db)):
 
 @app.post("/api/v1/papers", response_model=PaperResponse, status_code=status.HTTP_201_CREATED)
 def create_paper(paper: PaperCreate, db: Session = Depends(get_db)):
+    existing_paper = db.query(db_models.Paper).filter(db_models.Paper.title == paper.title).first()
+    if existing_paper:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Paper with this title already exists")
     db_paper = db_models.Paper(**paper.model_dump())
     db.add(db_paper)
     db.commit()
