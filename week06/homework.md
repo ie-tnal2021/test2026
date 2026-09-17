@@ -448,8 +448,9 @@ git push -u origin experiment/vague-prompt
 # ローカルリポジトリ後片付け
 git checkout main
 git pull origin main
-git branch -d experiment/vague-prompt
+git branch -D experiment/vague-prompt
 ```
 
 ## 備考
 テストコード作りがちなので指示に含めた方が良さそう。
+
