@@ -1,6 +1,18 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, EmailStr
 from typing import Optional
 from datetime import date, datetime
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class UserResponse(BaseModel):
+    id: int
+    email: str
 
 class PaperCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=100)

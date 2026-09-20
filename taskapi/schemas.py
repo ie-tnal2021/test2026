@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 from datetime import date, datetime
 
@@ -18,3 +18,15 @@ class TaskResponse(BaseModel):
     done: bool
     due_date: Optional[date]
     created_at: datetime
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+
+class UserResponse(BaseModel):
+    id: int
+    email: EmailStr
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

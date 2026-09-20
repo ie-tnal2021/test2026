@@ -3,7 +3,7 @@
 ## 実行環境
 - Dev Container内（Python 3.11、Debian bookworm）
 - 仮想環境（venv）は使用していない。パッケージはグローバル環境にpip installでインストール済み
-- fastapi・uvicorn・sqlalchemy・pydanticはインストール済み。pip list等で毎回確認する必要はない
+- fastapi・uvicorn・sqlalchemy・pydantic・python-jose・pwdlib・pydantic[email]はインストール済み。pip list等で毎回確認する必要はない
 
 ## プロジェクト構成
 - main.py: FastAPIアプリ本体、エンドポイント定義
