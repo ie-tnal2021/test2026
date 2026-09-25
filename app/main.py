@@ -73,10 +73,12 @@ def get_me(current_user: db_models.User = Depends(get_current_user)):
     return current_user
 
 @app.get("/api/v1/papers", response_model=list[PaperResponse])
-def list_papers(done: bool | None = None, db: Session = Depends(get_db), current_user: db_models.User = Depends(get_current_user)):
+def list_papers(done: bool | None = None, q: str | None = None, db: Session = Depends(get_db), current_user: db_models.User = Depends(get_current_user)):
     query = db.query(db_models.Paper).filter(db_models.Paper.user_id == current_user.id)
     if done is not None:
         query = query.filter(db_models.Paper.done == done)
+    if q is not None:
+        query = query.filter(db_models.Paper.title.contains(q))
     return query.all()
 
 @app.post("/api/v1/papers", response_model=PaperResponse, status_code=status.HTTP_201_CREATED)

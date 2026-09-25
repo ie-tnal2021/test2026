@@ -1,0 +1,25 @@
+# .github/workflows/ci-paperapi.yml
+name: CI (taskapi)
+on:
+  push:
+    paths: ["taskapi/**", ".github/workflows/ci-paperapi.yml"]
+  pull_request:
+    paths: ["taskapi/**", ".github/workflows/ci-paperapi.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: taskapi
+    env:
+      SECRET_KEY: ci-test-secret-key
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest tests/ -v
