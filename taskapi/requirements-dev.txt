@@ -1,0 +1,5 @@
+# taskapi/requirements-dev.txt（開発・テスト用。実行用も含む）
+-r requirements.txt
+pytest
+httpx2
+ruff

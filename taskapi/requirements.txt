@@ -1,0 +1,9 @@
+# taskapi/requirements.txt（実行に必要なパッケージ）
+fastapi
+uvicorn[standard]
+sqlalchemy
+alembic
+pydantic[email]
+python-jose[cryptography]
+pwdlib[argon2]
+python-dotenv

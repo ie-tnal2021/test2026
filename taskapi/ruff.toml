@@ -1,0 +1,3 @@
+# taskapi/ruff.toml（Lintの検査ルールの設定）
+[lint]
+select = ["E4", "E7", "E9", "F"]
