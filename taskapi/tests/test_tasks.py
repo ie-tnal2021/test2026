@@ -23,8 +23,8 @@ def test_create_and_update_task(client, auth_headers):
     updated = client.patch(f"/api/v1/tasks/{created['id']}",json={"done": True}, headers=auth_headers)
     assert updated.status_code == 200
     assert updated.json()["title"] == "買い物"
-    assert updated.json()["done"] == True
+    assert updated.json()["done"] is True
     response = client.get(f"/api/v1/tasks/{created['id']}", headers=auth_headers)
     assert response.status_code == 200
     assert response.json()["title"] == "買い物"
-    assert response.json()["done"] == True
+    assert response.json()["done"] is True
