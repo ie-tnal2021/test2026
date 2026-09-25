@@ -1,16 +1,16 @@
 # .github/workflows/ci-paperapi.yml
-name: CI (taskapi)
+name: CI (app)
 on:
   push:
-    paths: ["taskapi/**", ".github/workflows/ci-paperapi.yml"]
+    paths: ["app/**", ".github/workflows/ci-paperapi.yml"]
   pull_request:
-    paths: ["taskapi/**", ".github/workflows/ci-paperapi.yml"]
+    paths: ["app/**", ".github/workflows/ci-paperapi.yml"]
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: taskapi
+        working-directory: app
     env:
       SECRET_KEY: ci-test-secret-key
     steps:
