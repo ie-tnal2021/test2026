@@ -4,3 +4,4 @@ pytest
 httpx2
 ruff
 pytest-cov
+security
