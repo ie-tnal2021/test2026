@@ -1,8 +1,11 @@
 # app/database/db.py
 import os
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+load_dotenv()  # .envのDATABASE_URLを読み込む（すでに設定されている場合は上書きしない）
 
 DATABASE_URL = os.environ["DATABASE_URL"]  # 未設定ならKeyErrorになる（フォールバックしない）
 

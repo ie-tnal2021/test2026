@@ -2,7 +2,7 @@
 """デモ用のユーザーとタスクを投入する。すでに投入済みなら、何もしない。"""
 import os
 import sys
-from datetime import date, timedelta
+from datetime import date
 
 from dotenv import load_dotenv
 from database.db import SessionLocal, engine
