@@ -13,6 +13,7 @@ jobs:
         working-directory: app
     env:
       SECRET_KEY: ci-test-secret-key
+      DATABASE_URL: sqlite:///./unused_by_tests.db
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
