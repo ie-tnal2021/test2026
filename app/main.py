@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from pwdlib import PasswordHash
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
+import logging
+import time
+from fastapi.responses import JSONResponse
 
 from database.db import get_db, engine
 from database.models import Base
@@ -137,3 +140,28 @@ def delete_paper(paper_id: int, db: Session = Depends(get_db), current_user: db_
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to delete this paper")
     db.delete(db_paper)
     db.commit()
+
+# アクセスログ・エラーログの実装 by week10 演習
+logger = logging.getLogger("access")
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    """すべてのリクエストについて、メソッド・パス・ステータスコード・所要時間を記録する（講義3のアクセスログ）。"""
+    start = time.monotonic()
+    response = await call_next(request)
+    logger.info("access", extra={
+        "method": request.method,
+        "path": request.url.path,
+        "status_code": response.status_code,
+        "duration_ms": (time.monotonic() - start) * 1000,
+    })
+    return response
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request, exc):
+    """自分のコードで捕まえていない例外を、エラーログとして記録し、500を返す。"""
+    logger.error("unhandled_exception", extra={
+        "path": request.url.path,
+        "error": str(exc),
+    })
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
