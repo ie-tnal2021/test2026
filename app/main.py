@@ -169,3 +169,9 @@ async def unhandled_exception_handler(request, exc):
         "error": str(exc),
     }))
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
+# app/main.py に、検証のため一時的に追加する
+@app.get("/api/v1/debug/boom")
+def boom():
+    """ログ確認用に、意図的に未処理の例外を発生させる（検証後は削除する）。"""
+    raise RuntimeError("intentional error for log verification")
